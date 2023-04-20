@@ -1,0 +1,81 @@
+.sidebar {
+    background-color: rgb(20, 77, 124);
+}
+
+.sidebarCompressed {
+    background-color: rgb(20, 77, 124);
+    width: 5rem;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.sidebar-component {
+    position: relative;
+}
+
+.p {
+    color: white;
+    margin-left: 2rem;
+}
+
+img {
+    height: 1.8rem;
+    width: 1.6rem;
+}
+
+.nav-component {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+}
+
+.header-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-top: 2.5rem;
+    height: 12rem;
+}
+
+.label-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+    padding: 1rem;
+}
+
+.inotas2 {
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 1rem;
+    font-size: 25px;
+}
+
+.img2 {
+    width: 6rem;
+    height: 6rem;
+}
+
+
+.p-sidebar .p-sidebar-header {
+    display: none;
+}
+
+.label-side-compressed {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+    padding: 1.6rem;
+}
