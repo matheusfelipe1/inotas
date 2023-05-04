@@ -6,7 +6,7 @@ function Navbar() {
     return (
         <div className="nav">
             <div className="nav-component">
-                <img className="img" src={logo} />
+                <img className="img" style={{width: '3rem', height: '3rem'}} src={logo} />
             </div>
             <p className="inotas">iNotas</p>
         </div>

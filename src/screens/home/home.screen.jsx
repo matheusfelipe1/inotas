@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Card } from 'primereact/card';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import HomeController from './homeController';
+import HomeController from './home.controller';
 import 'primeicons/primeicons.css';
 import Dictionary from '../../shared/dictionary';
 
@@ -20,7 +20,8 @@ export default class HomeScreen extends Component {
     dictionary = new Dictionary()
     state = {
         datas: [],
-        visible: false
+        visible: false,
+        details: false
     }
     componentDidMount = () => {
         this.setState({
@@ -51,6 +52,11 @@ export default class HomeScreen extends Component {
         let bodyDates = e => {
             return (<div>{this.dictionary.formattedDates(e)}</div>)
         }
+        let details = e => {
+            return (<div onClick={(e) => this.setState({details: true})}>
+                <i className="pi pi-info-circle" style={{ fontSize: '1.2rem' }}></i>
+            </div>)
+        }
         return (
             <div className='table'>
                 <Card>
@@ -73,6 +79,7 @@ export default class HomeScreen extends Component {
                         <Column field="status" sortable header="Status" filter filterPlaceholder="Informe o parametro" body={(e) => bodyStatus(e.status)} ></Column>
                         <Column field="description" sortable header="Descrição" filter filterPlaceholder="Informe o parametro" ></Column>
                         <Column field="reason" sortable header="Contestamento" filter filterPlaceholder="Informe o parametro"></Column>
+                        <Column field="action" header="" body={(e) => details(e)} ></Column>
                     </DataTable>
                 </Card>
                 <Dialog header='Adicionar nota' style={{ width: '50vw', height: '60vh' }}
@@ -82,6 +89,11 @@ export default class HomeScreen extends Component {
                     cancelOptions={{style: {backgroundColor: 'red', borderColor: 'red'}}}
                     uploadOptions={{style: {backgroundColor: 'green', borderColor: 'green'}}}></FileUpload>
                     <InputTextarea cols={100} rows={6} placeholder='Informe a descrição da nota'></InputTextarea>
+                </Dialog>
+                <Dialog header='Detalhes da nota' style={{ width: '70vw', height: '100vh' }}
+                    visible={this.state.details} onHide={(e) => this.setState({ details: false })}>
+                    <object width="100%" height="500" data="http://www.africau.edu/images/default/sample.pdf" type="application/pdf">   </object>
+                    <InputTextarea cols={150} rows={6} placeholder='Informe a descrição da nota'></InputTextarea>
                 </Dialog>
             </div>
         )

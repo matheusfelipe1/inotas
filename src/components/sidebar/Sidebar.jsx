@@ -39,7 +39,7 @@ function SidebarComponent() {
                     <img src={admin} />
                     <p className="p">Administrativo</p>
                 </div>
-                <div className="label-side">
+                <div className="label-side" onClick={() => navigate('settings')}>
                     <img src={config} />
                     <p className="p">Configurações</p>
                 </div>

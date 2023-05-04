@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './loginStyles.css'
+import './login.styles.css'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -20,7 +20,7 @@ function LoginScreen(props) {
                     <div className='inside-card'>
                         <div className='inside-card-component'>
                             <div className='component-inside'>
-                                <img src={invoice} className='img' />
+                                <img src={invoice} style={{width: '6rem', height: '6rem'}}  />
                                 <p className='nameCard'>iNotas</p>
                                 <span className="p-input-icon-left">
                                     <i className="pi pi-user" />

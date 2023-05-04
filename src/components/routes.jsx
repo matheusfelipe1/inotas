@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import Login from '../screens/login/loginScreen'
+import Login from '../screens/login/login.screen'
 import Sidebar from "./sidebar/Sidebar";
 
 function RoutesApp() {

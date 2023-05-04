@@ -1,5 +1,5 @@
 .nav {
-    height: 5rem;
+    height: 6rem;
     width: 100vw;
     background-color: rgb(20, 77, 124);
 }
@@ -10,7 +10,7 @@
     justify-content: center;
     align-items: center;
     align-content: center;
-    width: 100%;
+    width: 50%;
 }
 
 .img {
