@@ -19,9 +19,9 @@ export default class SettingsScreen extends Component {
         datas: [],
         visible: false
     }
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.setState({
-            datas: this.controller.getObjects()
+            datas: await this.controller.getObjects()
         })
     }
     render() {

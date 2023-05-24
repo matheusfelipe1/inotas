@@ -43,7 +43,7 @@ function SidebarComponent() {
                     <img src={config} />
                     <p className="p">Configurações</p>
                 </div>
-                <div className="label-side"onClick={() => navigate('/')} >
+                <div className="label-side"onClick={() => {navigate('/'); localStorage.clear()}} >
                     <img src={sair} />
                     <p className="p">Sair</p>
                 </div>
