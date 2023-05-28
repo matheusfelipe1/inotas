@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import HomeController from './home.controller';
 import 'primeicons/primeicons.css';
 import Dictionary from '../../shared/dictionary';
-
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { InputTextarea } from 'primereact/inputtextarea';
         
 import { Dialog } from 'primereact/dialog';
@@ -20,12 +20,27 @@ export default class HomeScreen extends Component {
     dictionary = new Dictionary()
     state = {
         datas: [],
+        pendentes: 0,
         visible: false,
-        details: false
+        details: false,
+        canUpload: true,
+        loading: false,
+        data: {},
+        path: '',
+        description: ''
     }
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.setState({
-            datas: this.controller.getObjects()
+            loading: true
+        })
+        const values = await this.controller.getObjects()
+        this.setState({
+            datas: values,
+            loading: false
+        })
+        const number = values.filter(e=> e.status === 0).length
+        this.setState({
+            pendentes: number
         })
     }
     render() {
@@ -52,8 +67,8 @@ export default class HomeScreen extends Component {
         let bodyDates = e => {
             return (<div>{this.dictionary.formattedDates(e)}</div>)
         }
-        let details = e => {
-            return (<div onClick={(e) => this.setState({details: true})}>
+        let details = val => {
+            return (<div onClick={(e) => this.setState({details: true, path: val.path, data: val})}>
                 <i className="pi pi-info-circle" style={{ fontSize: '1.2rem' }}></i>
             </div>)
         }
@@ -64,7 +79,7 @@ export default class HomeScreen extends Component {
                         <div className='elements1'>
                             <div className='card2'>
                                 <p style={{color: 'white', marginLeft: '1rem'}}>Pendentes</p>
-                                <p style={{color: 'white', marginLeft: '1rem'}}>56</p>
+                                <p style={{color: 'white', marginLeft: '1rem'}}>{this.state.pendentes}</p>
                             </div>
                         </div>
                         <div className='acoes'>
@@ -87,14 +102,52 @@ export default class HomeScreen extends Component {
                     <FileUpload accept='.pdf' style={{width: '55rem', marginBottom: '2rem'}}
                     cancelLabel='Cancelar' uploadLabel='Enviar' chooseLabel='Buscar' 
                     cancelOptions={{style: {backgroundColor: 'red', borderColor: 'red'}}}
+                    disabled={this.state.canUpload}
+                    uploadHandler={async(e) => {
+                        const file = e.files[0]
+                        const reader = new FileReader()
+                        reader.onload = async (result) => {
+                            const value = result.target.result.replace('data:application/pdf;base64,','');
+                            this.setState({
+                                visible: false,
+                                loading: true
+                            })
+                            await this.controller.saveStorage(value, file.name, this.state.description)
+                            this.setState({
+                                datas: await this.controller.getObjects2(),
+                                loading: false,
+                            })
+                        }
+                        reader.readAsDataURL(file)
+                    }}
+                    customUpload={true}
                     uploadOptions={{style: {backgroundColor: 'green', borderColor: 'green'}}}></FileUpload>
-                    <InputTextarea cols={100} rows={6} placeholder='Informe a descrição da nota'></InputTextarea>
+                    <InputTextarea cols={100} rows={6} placeholder='Informe a descrição da nota'
+                    onChange={(e) => {
+                        if (e.target.value !== null && e.target.value !== '') {
+                            this.setState({
+                                canUpload: false,
+                                description: e.target.value
+                            })
+                        } else {
+                            this.setState({
+                                canUpload: true,
+                                description: e.target.value
+                            })
+                        }
+                    }}
+                    ></InputTextarea>
                 </Dialog>
                 <Dialog header='Detalhes da nota' style={{ width: '70vw', height: '100vh' }}
                     visible={this.state.details} onHide={(e) => this.setState({ details: false })}>
-                    <object width="100%" height="500" data="http://www.africau.edu/images/default/sample.pdf" type="application/pdf">   </object>
-                    <InputTextarea cols={150} rows={6} placeholder='Informe a descrição da nota'></InputTextarea>
+                    <iframe width="100%" height="500" src={this.state.path} type="application/pdf">   </iframe>
+                    <InputTextarea cols={150} rows={6} placeholder={this.state.data.reason}></InputTextarea>
                 </Dialog>
+                {this.state.loading ?
+                <div className='loading'>
+                    <ProgressSpinner />
+                </div> : <div></div>
+            }
             </div>
         )
     }

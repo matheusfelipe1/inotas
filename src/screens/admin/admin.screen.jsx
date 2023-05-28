@@ -7,6 +7,7 @@ import 'primeicons/primeicons.css';
 import Dictionary from '../../shared/dictionary';
 import { InputTextarea } from 'primereact/inputtextarea';
 
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { Dialog } from 'primereact/dialog';
 import AdminController from "./admin.controller";
 
@@ -15,11 +16,24 @@ class Admin extends Component {
     dictionary = new Dictionary()
     state = {
         datas: [],
-        visible: false
+        loading: false,
+        visible: false,
+        pendentes: 0,
+        reason: '',
+        detail: {}
     }
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.setState({
-            datas: this.controller.getObjects()
+            loading: true
+        })
+        const values = await this.controller.getObjects()
+        this.setState({
+            datas: values,
+            loading: false
+        })
+        const number = values.filter(e=> e.status === 0).length
+        this.setState({
+            pendentes: number
         })
     }
     render() {
@@ -47,8 +61,8 @@ class Admin extends Component {
             return (<div>{this.dictionary.formattedDates(e)}</div>)
         }
 
-        let details = e => {
-            return (<div onClick={(e) => this.setState({ visible: true })}>
+        let details = val => {
+            return (<div onClick={(e) => this.setState({ visible: true, detail : val, reason: val.reason })}>
                 <i className="pi pi-info-circle" style={{ fontSize: '1.2rem' }}></i>
             </div>)
         }
@@ -59,7 +73,7 @@ class Admin extends Component {
                         <div className='elements1'>
                             <div className='card2'>
                                 <p style={{ color: 'white', marginLeft: '1rem' }}>Pendentes</p>
-                                <p style={{ color: 'white', marginLeft: '1rem' }}>56</p>
+                                <p style={{ color: 'white', marginLeft: '1rem' }}>{this.state.pendentes}</p>
                             </div>
                         </div>
                         <div className='acoes'>
@@ -76,14 +90,51 @@ class Admin extends Component {
                     </DataTable>
                 </Card>
                 <Dialog header='Detalhes da nota' style={{ width: '70vw', height: '100vh' }}
-                    visible={this.state.visible} onHide={(e) => this.setState({ visible: false })}>
-                    <object width="100%" height="500" data="http://www.africau.edu/images/default/sample.pdf" type="application/pdf">   </object>
-                    <InputTextarea cols={150} rows={6} placeholder='Informe a descrição da nota'></InputTextarea>
+                    visible={this.state.visible} onHide={(e) => this.setState({ visible: false, reason: '' })}>
+                    <iframe width="100%" height="500" src={this.state.detail.path} type="application/pdf">   </iframe>
+                    <InputTextarea disabled={this.state.detail.status} cols={150} rows={6} placeholder='Informe a razão se caso for contestação'
+                        value={this.state.reason}
+                        onChange={e => {
+                        this.setState({
+                            reason: e.target.value
+                        })
+                    }}></InputTextarea>
                     <div className='acoes'>
-                        <Button style={{ backgroundColor: 'green', borderBlockColor: 'green', marginLeft: '0.5rem' }} label='Confirmar' icon='pi pi-check' onClick={() => this.setState({ visible: true })} ></Button>
-                        <Button style={{ backgroundColor: 'red', borderBlockColor: 'red', marginLeft: '0.5rem' }} label='Contestar' icon='pi pi-times' ></Button>
+                        <Button disabled={this.state.detail.status}
+                        onClickCapture={async (e) => {
+                            this.setState({
+                                loading: true,
+                                visible: false
+                            })
+                            await this.controller.approveOrNot(this.state.detail.id, 1, this.state.reason);
+                            this.setState({
+                                datas: await this.controller.getObjects2(),
+                                loading: false,
+                                visible: false
+                            })
+                        }}
+                        style={{ backgroundColor: 'green', borderBlockColor: 'green', marginLeft: '0.5rem' }} label='Confirmar' icon='pi pi-check' onClick={() => this.setState({ visible: true })} ></Button>
+                        <Button 
+                            onClickCapture={async (e) => {
+                                this.setState({
+                                    loading: true,
+                                    visible: false
+                                })
+                                await this.controller.approveOrNot(this.state.detail.id, 2, this.state.reason);
+                                this.setState({
+                                    datas: await this.controller.getObjects2(),
+                                    loading: false,
+                                    visible: false
+                                })
+                            }}
+                            disabled={this.state.detail.status} style={{ backgroundColor: 'red', borderBlockColor: 'red', marginLeft: '0.5rem' }} label='Contestar' icon='pi pi-times' ></Button>
                     </div>
                 </Dialog>
+                {this.state.loading ?
+                <div className='loading'>
+                    <ProgressSpinner />
+                </div> : <div></div>
+            }
             </div>
         )
     }
