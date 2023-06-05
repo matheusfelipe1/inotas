@@ -9,4 +9,9 @@ export default class LoginService {
         const response = await this.http.post('/v1/login', body);
         return response.data;
     }
+
+    postCreate = async (body) => {
+        const response = await this.http.post('/v1/create-user-only-auth', body);
+        return response.data;
+    }
 }

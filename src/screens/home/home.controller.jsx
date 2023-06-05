@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
 import FilesService from '../../services/files.service';
+import * as FileSaver from 'file-saver'
+import * as XLSX from 'sheetjs-style'
 
 class HomeController {
 
@@ -82,6 +84,23 @@ class HomeController {
             alert('Ocorreu um erro ao tentar cadastrar nota')
             
         })
+    }
+
+    generateXLSX = async (data) => {
+        const list = [...data.map(value => {
+            return {
+                "id": value.id,
+                "Status da nota": value.status,
+                "Data de criação": value.createAt,
+                "Descrição": value.description,
+                "Motivo contestação": value.reason,
+            }
+        })]
+        const ws = XLSX.utils.json_to_sheet(list)
+        const wb = { Sheets: {'data': ws}, SheetNames: ['data'] }
+        const excelBuffer = await XLSX.write(wb, { bookType:'xlsx', type: 'array' })
+        const blob = new Blob([excelBuffer], { type: 'text/csv'})
+        FileSaver.saveAs(blob, 'relatorio.csv')
     }
 
 }

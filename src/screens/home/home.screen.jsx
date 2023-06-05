@@ -84,7 +84,8 @@ export default class HomeScreen extends Component {
                         </div>
                         <div className='acoes'>
                             <Button label='Adicionar' icon='pi pi-plus' onClick={() => this.setState({visible: true})} ></Button>
-                            <Button style={{ backgroundColor: 'green', borderBlockColor: 'green', marginLeft: '0.5rem' }} label='Exportar' icon='pi pi-file-excel' ></Button>
+                            <Button style={{ backgroundColor: 'green', borderBlockColor: 'green', marginLeft: '0.5rem' }}
+                            onClick={() => this.controller.generateXLSX(this.state.datas) } label='Exportar' icon='pi pi-file-excel' ></Button>
                         </div>
                     </div>
                     <DataTable scrollable scrollHeight="35rem"

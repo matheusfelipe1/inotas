@@ -3,11 +3,15 @@ import Login from '../screens/login/login.screen'
 import Sidebar from "./sidebar/Sidebar";
 
 function RoutesApp() {
+    
     return (
         <Router>
             <Routes>
                <Route exact path="/" Component={(props) => <Login {...props} history={Router} />} /> 
-               <Route path="/initial/*" Component={Sidebar} /> 
+               <Route path="/initial/*" Component={(props) => {
+                    const data = JSON.parse(localStorage.getItem('user'));
+                    return <Sidebar permission={data.type} />    
+               }} /> 
             </Routes>
         </Router>
     )
