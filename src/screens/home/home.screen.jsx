@@ -74,7 +74,7 @@ export default class HomeScreen extends Component {
         }
         return (
             <div className='table'>
-                <Card>
+                <Card className='card-table'>
                     <div className='elements'>
                         <div className='elements1'>
                             <div className='card2'>
@@ -89,7 +89,7 @@ export default class HomeScreen extends Component {
                         </div>
                     </div>
                     <DataTable scrollable scrollHeight="35rem"
-                        paginator={true} rows={7} value={this.state.datas} tableStyle={{ maxWidth: '100rem', minWidth: '90rem' }}>
+                        paginator={true} rows={7} value={this.state.datas} tableStyle={{ maxWidth: '100rem'}}>
                         <Column field="idNota" sortable header="Nota" filter filterPlaceholder="Informe o parametro" ></Column>
                         <Column field="createAt" sortable header="Data" body={(e) => bodyDates(e.createAt)}></Column>
                         <Column field="status" sortable header="Status" body={(e) => bodyStatus(e.status)} ></Column>

@@ -25,3 +25,21 @@
     font-style: italic;
     margin-top: -0.03rem;
 }
+
+
+@media (min-width: 1023px) and (max-width: 1440px) {
+    .nav-component {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 120rem;
+    }
+
+    .nav {
+        height: 5rem;
+        width: 95rem;
+        background-color: rgb(20, 77, 124);
+    }
+}

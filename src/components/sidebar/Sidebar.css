@@ -79,3 +79,25 @@ img {
     align-content: center;
     padding: 1.6rem;
 }
+
+@media (min-width: 1023px) and (max-width: 1440px) {
+    .sidebarCompressed {
+        background-color: rgb(20, 77, 124);
+        width: 5rem;
+        height: 70rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+@media (min-width: 1441px) and (max-width: 2560px) {
+    .sidebarCompressed {
+        background-color: rgb(20, 77, 124);
+        width: 5rem;
+        height: 70rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}

@@ -59,12 +59,12 @@ export default class SettingsScreen extends Component {
 
         return (
             <div className='table'>
-                <Card>
+                <Card className='card-table'>
                     <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginBottom: '0.5rem'}}>
                        <Button label='Adicionar novo usuário' icon='pi pi-plus' onClick={(e) => this.setState({ visible: true, checked: undefined })} /> 
                     </div>
                     <DataTable scrollable scrollHeight="35rem"
-                        paginator={true} rows={7} value={this.state.datas} tableStyle={{ maxWidth: '100rem', minWidth: '90rem' }}>
+                        paginator={true} rows={7} value={this.state.datas} tableStyle={{ maxWidth: '100rem'}}>
                         <Column field="nome" sortable header="Nome" ></Column>
                         <Column field="email" sortable header="E-mail" ></Column>
                         <Column field="cargo" sortable header="Ocupação"  ></Column>
