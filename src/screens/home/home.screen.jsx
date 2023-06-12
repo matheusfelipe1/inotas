@@ -91,8 +91,8 @@ export default class HomeScreen extends Component {
                     <DataTable scrollable scrollHeight="35rem"
                         paginator={true} rows={7} value={this.state.datas} tableStyle={{ maxWidth: '100rem', minWidth: '90rem' }}>
                         <Column field="idNota" sortable header="Nota" filter filterPlaceholder="Informe o parametro" ></Column>
-                        <Column field="createAt" sortable header="Data" filter filterPlaceholder="Informe o parametro" body={(e) => bodyDates(e.createAt)}></Column>
-                        <Column field="status" sortable header="Status" filter filterPlaceholder="Informe o parametro" body={(e) => bodyStatus(e.status)} ></Column>
+                        <Column field="createAt" sortable header="Data" body={(e) => bodyDates(e.createAt)}></Column>
+                        <Column field="status" sortable header="Status" body={(e) => bodyStatus(e.status)} ></Column>
                         <Column field="description" sortable header="Descrição" filter filterPlaceholder="Informe o parametro" ></Column>
                         <Column field="reason" sortable header="Contestamento" filter filterPlaceholder="Informe o parametro"></Column>
                         <Column field="action" header="" body={(e) => details(e)} ></Column>

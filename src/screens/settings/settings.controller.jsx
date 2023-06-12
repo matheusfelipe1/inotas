@@ -41,7 +41,7 @@ class SettingsController {
             case 1:
                 return 'Vendedor';
             default:
-                return 'estoquista';
+                return 'Estoquista';
         }
     }
 
